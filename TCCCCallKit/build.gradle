@@ -1,0 +1,54 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'com.tencent.qcloud.tccccallkit'
+    compileSdkVersion 31
+
+    defaultConfig {
+        versionName "1.0"
+        versionCode 1
+        minSdkVersion 19
+        targetSdkVersion 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+file('libs').eachFile { file ->
+    if (file.name.endsWith('.aar')) {
+        dependencies {
+            implementation(name: file.name.replace('.aar', ''), ext: 'aar')
+        }
+    }
+}
+
+dependencies {
+    // api fileTree(dir: 'libs', include: ['*.jar','*.aar'])
+//    api fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+
+    api 'androidx.appcompat:appcompat:1.3.1'
+    api 'com.google.android.material:material:1.4.0'
+    api 'androidx.recyclerview:recyclerview:1.2.1'
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
+    api 'com.github.bumptech.glide:glide:4.16.0'
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

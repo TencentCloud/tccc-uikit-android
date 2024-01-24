@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TCCC Call Kit Demo</string>
+    <string name="app_main_title">腾讯云联络中心</string>
+    <string name="app_hint_call_to">请输入需要呼叫的手机号码</string>
+    <string name="btn_text_call">呼叫</string>
+    <string name="app_login_success">登录成功</string>
+    <string name="app_login_error">登录失败。%s</string>
+    <string name="app_get_token_error">获取token失败。%s</string>
+</resources>

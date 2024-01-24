@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // 需要引入TCCCCallKit目录下的aar文件
+        flatDir {
+            dirs 'TCCCCallKit/libs'
+        }
+    }
+}
+
+rootProject.name = "TCCC Call Kit"
+include ':app'
+include ':TCCCCallKit'
+include ':debug'

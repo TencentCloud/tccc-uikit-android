@@ -1,0 +1,49 @@
+<resources>
+    <string name="tuicalling_contact_default_name">test 123</string>
+    <string name="tuicalling_toast_enable_mute">Muted</string>
+    <string name="tuicalling_toast_disable_mute">Unmuted</string>
+    <string name="tuicalling_toast_speaker">Speaker</string>
+    <string name="tuicalling_toast_use_handset">Earpiece</string>
+    <string name="tuicalling_network_offline_quality">The current network does not meet the minimum requirements for call</string>
+    <string name="tuicalling_network_vbad_quality">The current network is very bad</string>
+    <string name="tuicalling_network_bad_quality">The current network is bad</string>
+    <string name="tuicalling_network_poor_quality">The current network is poor</string>
+    <string name="tuicalling_network_good_quality">The current network is relatively good</string>
+    <string name="tuicalling_network_excellent_quality">The current network is very good</string>
+    <string name="tuicalling_toast_switch_camera">Switch Camera</string>
+    <string name="tuicalling_toast_enable_camera">Camera On</string>
+    <string name="tuicalling_toast_disable_camera">Camera Off</string>
+    <string name="tuicalling_waiting_accept">Waiting for the user to accept…</string>
+    <string name="tuicalling_invite_audio_call">You have a new call, please answer…</string>
+    <string name="tuicalling_text_microphone">Mic</string>
+    <string name="tuicalling_text_hangup">Hang Up</string>
+    <string name="tuicalling_text_reject">Decline</string>
+    <string name="tuicalling_text_speaker">Speaker</string>
+    <string name="tuicalling_text_dialing">Answer</string>
+    <string name="tuicalling_text_camera">Camera</string>
+    <string name="tuicalling_btn_cancel">Cancel</string>
+    <string name="tuicalling_wait_resonse">Waiting</string>
+    <string name="tuicalling_logged_elsewhere">Your account has been logged in elsewhere</string>
+    <string name="tuicalling_ended_reason_error">The call is abnormal, please check whether the outbound call rule is matched. %s</string>
+    <string name="tuicalling_ended_reason_timeout">Hang up after timeout</string>
+    <string name="tuicalling_ended_reason_local_bye">you have hung up</string>
+    <string name="tuicalling_ended_reason_remote_bye">The other party has hung up</string>
+    <string name="tuicalling_ended_reason_rejected">The other party has rejected the call</string>
+    <string name="tuicalling_ended_reason_remote_cancel">The other party has canceled</string>
+
+    <string name="tuicalling_permission_camera">Camera</string>
+    <string name="tuicalling_permission_microphone">Microphone</string>
+    <string name="tuicalling_permission_bluetooth">Bluetooth</string>
+    <string name="tuicalling_permission_separator">,</string>
+    <string name="tuicalling_permission_tips">Please turn on the %s permission first</string>
+    <string name="tuicalling_permission_title">%s applies for access to the %s</string>
+    <string name="tuicalling_permission_mic_reason">Needs access to your microphone, and it can be used for functions such as Audio Call.</string>
+    <string name="tuicalling_permission_bluetooth_reason">To ensure that you can connect to Bluetooth function for communication during Audio Call, we need to request permission of nearby devices.</string>
+
+
+    <string name="cancel">Cancel</string>
+    <string name="sure">Confirm</string>
+    <string name="core_permission_dialog_title">Authorization Request</string>
+    <string name="core_permission_dialog_positive_setting_text">Settings</string>
+    <string name="core_float_permission_hint">Please enable both \"Display pop-up window while running in the background\" and \"Display pop-up Window\" permissions</string>
+</resources>
