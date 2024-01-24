@@ -18,7 +18,7 @@
 
 [](id:step2)
 ## 步骤二：完成工程配置
-1. 在工程根目录下找到 `settings.gradle` 文件，并在其中增加如下代码，它的作用是将 [步骤一](id:step1) 中下载的 tuicallkit 组件导入到您当前的项目中：
+1. 在工程根目录下找到 `settings.gradle` 文件，并在其中增加如下代码，它的作用是将 [步骤一](id:step1) 中下载的 TCCCCallKit 组件导入到您当前的项目中：
 
 ``` java
 dependencyResolutionManagement {
@@ -35,7 +35,7 @@ dependencyResolutionManagement {
 
 include ':TCCCCallKit'
 ```
-2. 在 app 目录下找到 `build.gradle` 文件，并在其中增加如下代码，它的作用是声明当前 app 对新加入的 tuicallkit 组件的依赖：
+2. 在 app 目录下找到 `build.gradle` 文件，并在其中增加如下代码，它的作用是声明当前 app 对新加入的 TCCCCallKit 组件的依赖：
 
 ``` java
 api project(':TCCCCallKit')
@@ -54,7 +54,7 @@ api project(':TCCCCallKit')
 > 
 
 [](id:step3)
-## 步骤三：登录 TUI 组件
+## 步骤三：登录 TCCC
 ``` java
 // 登录
 TCCCCallKit.createInstance(getApplicationContext()).login(
@@ -130,7 +130,7 @@ TCCCCallKit.createInstance(getApplicationContext()).enableFloatWindow(true);
 
 ### 二、通话状态监听
 
-如果您的业务需要 **监听通话的状态**，例如通话开始、结束，以及通话过程中的网络质量等等（详见[TUICallObserver](https://write.woa.com/document/86735802436497408)），可以监听以下事件：
+如果您的业务需要 **监听通话的状态**，例如通话开始、结束，以及通话过程中的网络质量等等（详见[CallStatusListener](https://github.com/TencentCloud/tccc-uikit-android/blob/main/TCCCCallKit/src/main/java/com/tencent/qcloud/tccccallkit/base/TUICommonDefine.java)），可以监听以下事件：
 
 ``` java
 TCCCCallKit.createInstance(getApplicationContext()).setCallStatusListener(new TUICommonDefine.CallStatusListener() {
