@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.tencent.qcloud.debug.GenerateTestUserToken;
 import com.tencent.qcloud.tccccallkit.TCCCCallKit;
 import com.tencent.qcloud.tccccallkit.base.TUICommonDefine;
+import com.tencent.qcloud.tccccallkit.utils.DisplayUtils;
 import com.tencent.qcloud.tccccallkit.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity {
@@ -34,7 +35,7 @@ public class MainActivity extends BaseActivity {
                 ToastUtil.toastShortMessageCenter(this.getString(R.string.app_hint_call_to));
                 return;
             }
-            TCCCCallKit.createInstance(getApplicationContext()).call(callNumber,null,null);
+            TCCCCallKit.createInstance(getApplicationContext()).call(callNumber, DisplayUtils.maskTelephoneNumber(callNumber), null,null);
         });
         if (TCCCCallKit.createInstance(getApplicationContext()).isUserLogin()) {
             return;

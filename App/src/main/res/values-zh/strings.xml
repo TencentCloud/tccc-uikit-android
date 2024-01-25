@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TCCC Call Kit Demo</string>
+    <string name="app_name">腾讯云联络中心</string>
     <string name="app_main_title">腾讯云联络中心</string>
     <string name="app_hint_call_to">请输入需要呼叫的手机号码</string>
     <string name="btn_text_call">呼叫</string>

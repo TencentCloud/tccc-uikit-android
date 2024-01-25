@@ -1,6 +1,7 @@
 package com.tencent.qcloud.tccccallkit.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -8,6 +9,18 @@ import java.util.ArrayList;
 
 public class DisplayUtils {
 
+    public static String maskTelephoneNumber(String telNumber) {
+        if (TextUtils.isEmpty(telNumber) || telNumber.length() <= 6) {
+            return telNumber;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(telNumber.substring(0, 3));
+        for (int i = 3; i < telNumber.length() - 3; i++) {
+            sb.append("*");
+        }
+        sb.append(telNumber.substring(telNumber.length() - 3));
+        return sb.toString();
+    }
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);

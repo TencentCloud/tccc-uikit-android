@@ -11,10 +11,18 @@ public abstract class TCCCCallKit {
         return TCCCCallKitImpl.createInstance(context);
     }
 
-    public void call(String to,String remark,TUICommonDefine.Callback callback) {
+
+    public void call(String to,String displayNumber,String remark,TUICommonDefine.Callback callback) {
 
     }
 
+    /**
+     *
+     * @param userId
+     * @param sdkAppId
+     * @param token
+     * @param callback
+     */
     public void login(String userId,Long sdkAppId,String token, TUICommonDefine.Callback callback) {
     }
 

@@ -29,7 +29,7 @@ public class TUICallingUserView extends BaseUserView{
     @Override
     public void updateUserInfo(CallingUserModel model) {
         super.updateUserInfo(model);
-        mTextUserName.setText(TextUtils.isEmpty(model.remark) ? model.phoneNumber : model.remark);
+        mTextUserName.setText(TextUtils.isEmpty(model.displayNumber) ? model.phoneNumber : model.displayNumber);
     }
 
     @Override

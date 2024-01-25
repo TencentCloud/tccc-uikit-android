@@ -94,8 +94,9 @@ TCCCCallKit.createInstance(getApplicationContext()).logout(
 
 ``` java
 TCCCCallKit.createInstance(getApplicationContext()).call(
-    "134306xxxx", // 需要呼叫的电话号码
-    null,         // 号码备注，在通话条中会替代号码显示,填写为null或者为空字符串将显示电话号码
+    "13430689561", // 需要呼叫的电话号码,
+    "134*****561", // 在通话条中会替代号码显示,填写为null或者为空字符串将显示电话号码
+    null,         // 号码备注，在通话记录中将会保存显示该备注
     new TUICommonDefine.Callback() {
     @Override
     public void onSuccess() {

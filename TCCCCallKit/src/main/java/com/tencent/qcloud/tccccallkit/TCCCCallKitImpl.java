@@ -88,15 +88,14 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     }
 
     @Override
-    public void call(String to,String remark, TUICommonDefine.Callback callback) {
+    public void call(String to,String displayNumber,String remark, TUICommonDefine.Callback callback) {
         Log.i(TAG, "call, to: " + to+" ,remark="+remark);
         if (TextUtils.isEmpty(to)) {
             Log.e(TAG, "call failed, userId is empty");
             callbackError(callback, TUICallDefine.ERROR_PARAM_INVALID, "call failed, userId is empty");
             return;
         }
-        internalCall(to,remark,callback);
-
+        internalCall(to,displayNumber,remark,callback);
     }
 
     @Override
@@ -208,10 +207,10 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         }
     }
 
-    private void internalCall(String to,String remark,TUICommonDefine.Callback callback) {
+    private void internalCall(String to,String displayNumber,String remark,TUICommonDefine.Callback callback) {
         callInfo.phoneNumber = to;
         callInfo.remark = remark;
-
+        callInfo.displayNumber = displayNumber;
         PermissionRequest.requestPermissions(mContext, new PermissionCallback() {
 
             @Override

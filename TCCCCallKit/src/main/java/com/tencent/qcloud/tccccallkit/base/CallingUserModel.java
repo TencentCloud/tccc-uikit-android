@@ -7,7 +7,7 @@ import java.util.Objects;
 public class CallingUserModel {
     public String phoneNumber;
     public String remark;
-    public boolean isEnter;
+    public String displayNumber;
     public boolean isAudioAvailable;
     public int     volume;
 
@@ -34,9 +34,9 @@ public class CallingUserModel {
     @Override
     public String toString() {
         return "CallingUserModel{"
-                + "userId='" + phoneNumber
-                + ", userName='" + remark
-                + ", isEnter=" + isEnter
+                + "phoneNumber='" + phoneNumber
+                + ", remark='" + remark
+                + ", displayNumber=" + displayNumber
                 + ", isAudioAvailable=" + isAudioAvailable
                 + ", volume=" + volume
                 + '}';
