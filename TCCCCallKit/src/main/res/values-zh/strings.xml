@@ -26,7 +26,7 @@
     <string name="tuicalling_btn_cancel">取消</string>
     <string name="tuicalling_wait_resonse">等待接听</string>
     <string name="tuicalling_logged_elsewhere">您的账号已在其他位置登录</string>
-    <string name="tuicalling_ended_reason_error">呼叫异常，请检查是否命中了外呼规则。%s</string>
+    <string name="tuicalling_ended_reason_error">通话结束，可能是对方拒接或者是命中外呼限制规则。%s</string>
     <string name="tuicalling_ended_reason_timeout">超时挂断</string>
     <string name="tuicalling_ended_reason_local_bye">你已挂断</string>
     <string name="tuicalling_ended_reason_remote_bye">对方已挂断</string>

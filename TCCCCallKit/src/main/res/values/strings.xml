@@ -24,7 +24,7 @@
     <string name="tuicalling_btn_cancel">Cancel</string>
     <string name="tuicalling_wait_resonse">Waiting</string>
     <string name="tuicalling_logged_elsewhere">Your account has been logged in elsewhere</string>
-    <string name="tuicalling_ended_reason_error">The call is abnormal, please check whether the outbound call rule is matched. %s</string>
+    <string name="tuicalling_ended_reason_error">The call restriction ends, possibly because the other party refuses to answer or due to predetermined outbound call rules. %s</string>
     <string name="tuicalling_ended_reason_timeout">Hang up after timeout</string>
     <string name="tuicalling_ended_reason_local_bye">you have hung up</string>
     <string name="tuicalling_ended_reason_remote_bye">The other party has hung up</string>
