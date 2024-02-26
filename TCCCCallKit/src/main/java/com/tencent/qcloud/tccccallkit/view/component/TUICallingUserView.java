@@ -9,7 +9,7 @@ import com.tencent.qcloud.tccccallkit.R;
 import com.tencent.qcloud.tccccallkit.base.CallingUserModel;
 import com.tencent.tccc.TCCCTypeDef;
 
-public class TUICallingUserView extends BaseUserView{
+public class TUICallingUserView extends BaseUserView {
     private final Context   mContext;
     private TextView mImageAvatar;
     private TextView  mTextUserName;
@@ -35,7 +35,7 @@ public class TUICallingUserView extends BaseUserView{
     @Override
     public void updateNetworkTip(TCCCTypeDef.TCCCQuality quality) {
         if (null == quality) {
-            return ;
+            return;
         }
         String tips = "";
         switch (quality) {
@@ -56,6 +56,9 @@ public class TUICallingUserView extends BaseUserView{
                 break;
             case TCCCQuality_Down:
                 tips = getResources().getString(R.string.tuicalling_network_offline_quality);
+                break;
+            default:
+                tips = getResources().getString(R.string.tuicalling_network_excellent_quality);
                 break;
         }
         mImageAvatar.setText(tips);

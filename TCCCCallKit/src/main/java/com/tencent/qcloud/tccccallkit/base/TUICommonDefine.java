@@ -6,6 +6,7 @@ public class TUICommonDefine {
 
     public interface Callback {
         public void onSuccess();
+
         public void onError(int errCode, String errMsg);
     }
 
@@ -85,7 +86,7 @@ public class TUICommonDefine {
         }
     }
 
-    public interface CallStatusListener{
+    public interface CallStatusListener {
         public void onNewSession(SessionInfo info);
 
         public void onEnded(TUICommonDefine.EndedReason reason, String reasonMessage, String sessionId);

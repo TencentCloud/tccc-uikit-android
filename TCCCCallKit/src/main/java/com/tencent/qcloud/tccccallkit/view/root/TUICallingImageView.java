@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tencent.qcloud.tccccallkit.R;
 
-public class TUICallingImageView extends BaseCallView{
+public class TUICallingImageView extends BaseCallView {
     private static final String TAG = "TCCCCallKit";
     private final Context        mContext;
     private LinearLayout   mLayoutUserView;

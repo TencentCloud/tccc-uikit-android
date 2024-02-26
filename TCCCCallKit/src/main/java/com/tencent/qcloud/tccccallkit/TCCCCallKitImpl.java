@@ -60,6 +60,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
 
     private long mSelfLowQualityTime;
     private long mOtherUserLowQualityTime;
+
     public static TCCCCallKitImpl createInstance(Context context) {
         if (null == sInstance) {
             synchronized (TCCCCallKitImpl.class) {
@@ -82,14 +83,14 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     }
 
     private void registerCallingEvent() {
-        //TUICallkit Event
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED, this);
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, this);
+        EventManager manager = EventManager.getInstance();
+        manager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED, this);
+        manager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, this);
     }
 
     @Override
     public void call(String to,String displayNumber,String remark, TUICommonDefine.Callback callback) {
-        Log.i(TAG, "call, to: " + to+" ,remark="+remark);
+        Log.i(TAG, "call, to: " + to + " ,remark=" + remark);
         if (TextUtils.isEmpty(to)) {
             Log.e(TAG, "call failed, userId is empty");
             callbackError(callback, TUICallDefine.ERROR_PARAM_INVALID, "call failed, userId is empty");
@@ -105,18 +106,18 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         params.sdkAppId = sdkAppId;
         params.token = token;
         params.type = TCCCTypeDef.TCCCLoginType.Agent;
-        Log.i(TAG, "login, params.userId="+userId);
+        Log.i(TAG, "login, params.userId=" + userId);
         cccSDK.login(params, new TXValueCallback<TCCCTypeDef.TCCCLoginInfo>() {
             @Override
             public void onSuccess(TCCCTypeDef.TCCCLoginInfo tcccLoginInfo) {
-                Log.i(TAG, "login success sipUserId="+tcccLoginInfo.userId);
+                Log.i(TAG, "login success sipUserId=" + tcccLoginInfo.userId);
                 TUICallingStatusManager.sharedInstance(mContext).setLoginInfo(params);
                 callbackSuccess(callback);
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG, "login onError errorCode="+i);
+                Log.e(TAG, "login onError errorCode=" + i);
                 TUICallingStatusManager.sharedInstance(mContext).setLoginInfo(new TCCCTypeDef.TCCCLoginParams());
                 callbackError(callback,i,s);
             }
@@ -124,11 +125,23 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     }
 
     @Override
-    public boolean isUserLogin() {
-        TCCCTypeDef.TCCCLoginParams params =TUICallingStatusManager.sharedInstance(mContext).getLoginInfo();
-        boolean isOK = !TextUtils.isEmpty(params.userId);
-        Log.i(TAG, "isUserLogin, isOk="+isOK);
-        return isOK;
+    public void isUserLogin(TUICommonDefine.Callback callback) {
+        cccSDK.checkLogin(new TXCallback() {
+            @Override
+            public void onSuccess() {
+                if (callback != null) {
+                    callback.onSuccess();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                TUICallingStatusManager.sharedInstance(mContext).setLoginInfo(new TCCCTypeDef.TCCCLoginParams());
+                if (callback != null) {
+                    callback.onError(i,s);
+                }
+            }
+        });
     }
 
     @Override
@@ -144,7 +157,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
 
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG, "logout error,code="+i);
+                Log.e(TAG, "logout error,code=" + i);
                 callbackError(callback,i,s);
             }
         });
@@ -179,24 +192,28 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
                     && PermissionRequester.newInstance(PermissionRequester.BG_START_PERMISSION).has()) {
                 return;
             }
-            Log.i(TAG, "queryOfflineCall and PermissionRequest,role="+role);
+            Log.i(TAG, "queryOfflineCall and PermissionRequest,role=" + role);
             PermissionRequest.requestPermissions(mContext,new PermissionCallback() {
                 @Override
                 public void onGranted() {
                     if (TUICallDefine.Role.None.equals(role)) {
                         return;
                     }
-                    if ((TextUtils.isEmpty(callInfo.phoneNumber) && TUICallDefine.Role.Caller.equals(role)) ||
-                            (TextUtils.isEmpty(incomingCallInfo.phoneNumber) && TUICallDefine.Role.Called.equals(role))) {
+                    if ((TextUtils.isEmpty(callInfo.phoneNumber) &&
+                            TUICallDefine.Role.Caller.equals(role)) ||
+                            (TextUtils.isEmpty(incomingCallInfo.phoneNumber) &&
+                                    TUICallDefine.Role.Called.equals(role))) {
                         return;
                     }
-                    Log.i(TAG, "queryOfflineCall and showCallingView,callInfo.userId="+callInfo.phoneNumber +" ,incomingCallInfo.userId="+incomingCallInfo.phoneNumber);
+                    Log.i(TAG, "queryOfflineCall and showCallingView,callInfo.userId=" +
+                            callInfo.phoneNumber +
+                            " ,incomingCallInfo.userId=" + incomingCallInfo.phoneNumber);
                     showCallingView();
                 }
 
                 @Override
                 public void onDenied() {
-                    Log.e(TAG, "queryOfflineCall , PermissionRequest onDenied,role="+role);
+                    Log.e(TAG, "queryOfflineCall , PermissionRequest onDenied,role=" + role);
                     if (TUICallDefine.Role.Called.equals(role)) {
                         Log.e(TAG, "queryOfflineCall, PermissionRequest Denied, terminate");
                         cccSDK.terminate();
@@ -232,7 +249,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
 
                     @Override
                     public void onError(int i, String s) {
-                        Log.e(TAG, "call failed, errorCode="+i);
+                        Log.e(TAG, "call failed, errorCode=" + i);
                         ToastUtil.toastLongMessage(s);
                         callbackError(callback, i, s);
                     }
@@ -284,7 +301,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     }
 
     private void onCallReceived(String number) {
-        Log.i(TAG, "onCallReceived number="+number);
+        Log.i(TAG, "onCallReceived number=" + number);
         incomingCallInfo.phoneNumber = number;
         incomingCallInfo.remark = number;
         TUICallingStatusManager.sharedInstance(mContext).setCallRole(TUICallDefine.Role.Called);
@@ -356,8 +373,10 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     }
 
     private void updateNetworkQuality(TCCCTypeDef.TCCCQualityInfo localQuality) {
-        if (null == localQuality)
+        if (null == localQuality) {
             return;
+        }
+
         boolean isLocalLowQuality = false;
         isLocalLowQuality = isLowQuality(localQuality.quality);
         if (isLocalLowQuality) {
@@ -365,7 +384,8 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constants.NETWORK_STATUS, localQuality.quality);
-        EventManager.getInstance().notifyEvent(Constants.EVENT_TUICALLING_CHANGED,Constants.EVENT_SUB_NETWORK_STATUS_CHANGED,map);
+        EventManager manager = EventManager.getInstance();
+        manager.notifyEvent(Constants.EVENT_TUICALLING_CHANGED,Constants.EVENT_SUB_NETWORK_STATUS_CHANGED,map);
     }
 
     private boolean isLowQuality(TCCCTypeDef.TCCCQuality quality) {
@@ -396,11 +416,11 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         @Override
         public void onError(int errCode, String errMsg, Bundle extraInfo) {
             super.onError(errCode, errMsg, extraInfo);
-            Log.e(TAG,"CCC onError,errCode="+errCode+" ,errMsg="+errMsg);
+            Log.e(TAG,"CCC onError,errCode=" + errCode + " ,errMsg=" + errMsg);
             if (errCode == TCCCError.ERR_SIP_FORBIDDEN) {
                 TUICallingStatusManager.sharedInstance(mContext).setLoginInfo(new TCCCTypeDef.TCCCLoginParams());
                 ToastUtil.toastLongMessageCenter(mContext.getString(R.string.tuicalling_logged_elsewhere));
-                if( null != mUserStatusListener){
+                if (null != mUserStatusListener) {
                     mUserStatusListener.onKickedOffline();
                 }
                 return;
@@ -410,13 +430,17 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         @Override
         public void onWarning(int warningCode, String warningMsg, Bundle extraInfo) {
             super.onWarning(warningCode, warningMsg, extraInfo);
-            Log.w(TAG,"CCC onError,warningCode="+warningCode+" ,warningMsg="+warningMsg);
+            Log.w(TAG,"CCC onError,warningCode=" + warningCode + " ,warningMsg=" + warningMsg);
         }
 
         @Override
         public void onNewSession(TCCCTypeDef.ITCCCSessionInfo info) {
             super.onNewSession(info);
-            Log.i(TAG,"CCC onNewSession,sessionId="+info.sessionId+" ,sessionDirection="+info.sessionDirection+",customHeaderJson="+info.customHeaderJson);
+            Log.i(TAG,"CCC onNewSession,sessionId=" + info.sessionId +
+                    " ,sessionDirection=" +
+                    info.sessionDirection +
+                    ",customHeaderJson=" +
+                    info.customHeaderJson);
             if (TCCCTypeDef.TCCCSessionDirection.CallIn.equals(info.sessionDirection)) {
                 onCallReceived(info.fromUserId);
             }
@@ -429,12 +453,15 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         @Override
         public void onEnded(EndedReason reason, String reasonMessage, String sessionId) {
             super.onEnded(reason, reasonMessage, sessionId);
-            Log.i(TAG, "CCC onEnded,reason= "+reason+", reasonMessage="+reasonMessage+" ,sessionId="+sessionId);
+            Log.i(TAG, "CCC onEnded,reason= " + reason +
+                    ", reasonMessage=" + reasonMessage +
+                    " ,sessionId=" + sessionId);
             String msg = "";
             if (reason == EndedReason.Error) {
                 // 外呼规则如下：
                 // https://cloud.tencent.com/document/product/679/79155
-                msg = String.format(mContext.getString(R.string.tuicalling_ended_reason_error),"["+reason.ordinal()+"]"+reasonMessage) ;
+                msg = String.format(mContext.getString(R.string.tuicalling_ended_reason_error),
+                        "[" + reason.ordinal() + "]" + reasonMessage);
 
             } else if (reason == EndedReason.Timeout) {
                 msg = mContext.getString(R.string.tuicalling_ended_reason_timeout);
@@ -452,14 +479,15 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
             }
             resetCall();
             if (null != mStatusListener) {
-                mStatusListener.onEnded( TUICommonDefine.EndedReason.values()[reason.ordinal()], reasonMessage, sessionId);
+                mStatusListener.onEnded(TUICommonDefine.EndedReason.values()[reason.ordinal()],
+                        reasonMessage, sessionId);
             }
         }
 
         @Override
         public void onAccepted(String sessionId) {
             super.onAccepted(sessionId);
-            Log.i(TAG, "CCC onAccepted,sessionId="+sessionId);
+            Log.i(TAG, "CCC onAccepted,sessionId=" + sessionId);
             mCallingBellFeature.stopMusic();
             TUICallingStatusManager.sharedInstance(mContext).updateCallStatus(TUICallDefine.Status.Accept);
             showTimeCount();
@@ -478,7 +506,8 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         }
 
         @Override
-        public void onNetworkQuality(TCCCTypeDef.TCCCQualityInfo localQuality, TCCCTypeDef.TCCCQualityInfo remoteQuality) {
+        public void onNetworkQuality(TCCCTypeDef.TCCCQualityInfo localQuality,
+                                     TCCCTypeDef.TCCCQualityInfo remoteQuality) {
             super.onNetworkQuality(localQuality, remoteQuality);
             updateNetworkQuality(localQuality);
             if (null != mStatusListener) {
@@ -496,19 +525,19 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
         @Override
         public void onConnectionLost(TCCCServerType serverType) {
             super.onConnectionLost(serverType);
-            Log.e(TAG, "CCC onConnectionLost,serverType="+serverType);
+            Log.e(TAG, "CCC onConnectionLost,serverType=" + serverType);
         }
 
         @Override
         public void onTryToReconnect(TCCCServerType serverType) {
             super.onTryToReconnect(serverType);
-            Log.w(TAG, "CCC onTryToReconnect,serverType="+serverType);
+            Log.w(TAG, "CCC onTryToReconnect,serverType=" + serverType);
         }
 
         @Override
         public void onConnectionRecovery(TCCCServerType serverType) {
             super.onConnectionRecovery(serverType);
-            Log.i(TAG, "CCC onConnectionRecovery,serverType="+serverType);
+            Log.i(TAG, "CCC onConnectionRecovery,serverType=" + serverType);
         }
     };
 
@@ -540,7 +569,8 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
                 resetCall();
             }
         }
-        if (Constants.EVENT_TUICALLING_CHANGED.equals(key) && Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED.equals(subKey)) {
+        if (Constants.EVENT_TUICALLING_CHANGED.equals(key)
+                && Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED.equals(subKey)) {
             mCallingBellFeature.stopMusic();
             if (!((boolean) param.get(Constants.ACCEPT_STATUS))) {
                 stopTimeCount();

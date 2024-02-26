@@ -14,10 +14,12 @@ public class CallingUserModel {
     public CallingUserModel() {
 
     }
+
     public CallingUserModel(String id,String name) {
         this.phoneNumber = id;
         this.remark = name;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

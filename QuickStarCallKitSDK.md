@@ -164,13 +164,29 @@ TCCCCallKit.createInstance(getApplicationContext()).setCallStatusListener(new TU
 
 ### 三、用户状态监听
 
-如果您的业务需要 **用户状态监听**，可以监听以下事件：
+- 如果您的业务需要 **用户状态监听**，可以监听以下事件：
 
 ``` java
 TCCCCallKit.createInstance(getApplicationContext()).setUserStatusListener(new TUICommonDefine.UserStatusListener() {
     @Override
     public void onKickedOffline() {
         // 被T，用户可能在其他地方登录了。
+    }
+});
+```
+
+- 实时判断坐席是否登录
+
+``` java
+TCCCCallKit.createInstance(getApplicationContext()).isUserLogin(new TUICommonDefine.Callback() {
+    @Override
+    public void onSuccess() {
+        // 已登录
+    }
+
+    @Override
+    public void onError(int errCode, String errMsg) {
+        // 未登录，或者被T了。
     }
 });
 ```

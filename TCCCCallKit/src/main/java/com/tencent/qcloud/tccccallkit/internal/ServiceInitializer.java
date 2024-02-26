@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.tencent.qcloud.tccccallkit.TCCCCallKitImpl;
 import com.tencent.qcloud.tccccallkit.base.BaseCallActivity;
 import com.tencent.qcloud.tccccallkit.base.TUICallingStatusManager;
+import com.tencent.qcloud.tccccallkit.base.TUICommonDefine;
 import com.tencent.qcloud.tccccallkit.utils.DeviceUtils;
 import com.tencent.qcloud.tccccallkit.view.floatwindow.FloatWindowService;
 import com.tencent.tccc.TCCCTypeDef;
@@ -42,11 +43,21 @@ public class ServiceInitializer extends ContentProvider {
                     foregroundActivities++;
                     if (foregroundActivities == 1 && !isChangingConfiguration) {
                         // The Call page exits the background and re-enters without repeatedly pulling up the page.
-                        TCCCTypeDef.TCCCLoginParams loginInfo = TUICallingStatusManager.sharedInstance(context).getLoginInfo();
+                        TUICallingStatusManager manager = TUICallingStatusManager.sharedInstance(context);
+                        TCCCTypeDef.TCCCLoginParams loginInfo = manager.getLoginInfo();
                         if (!TextUtils.isEmpty(loginInfo.userId) && !(activity instanceof BaseCallActivity)
-                                && TCCCCallKitImpl.createInstance(context).isUserLogin()
                                 && !DeviceUtils.isServiceRunning(context, FloatWindowService.class.getName())) {
-                            TCCCCallKitImpl.createInstance(context).queryOfflineCall();
+                            TCCCCallKitImpl.createInstance(context).isUserLogin(new TUICommonDefine.Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    TCCCCallKitImpl.createInstance(context).queryOfflineCall();
+                                }
+
+                                @Override
+                                public void onError(int errCode, String errMsg) {
+
+                                }
+                            });
                         }
                     }
                     isChangingConfiguration = false;
@@ -95,7 +106,9 @@ public class ServiceInitializer extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
+    public Cursor query(@NonNull Uri uri, @Nullable String[] strings,
+                        @Nullable String s, @Nullable String[] strings1,
+                        @Nullable String s1) {
         return null;
     }
 
@@ -117,7 +130,8 @@ public class ServiceInitializer extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues contentValues,
+                      @Nullable String s, @Nullable String[] strings) {
         return 0;
     }
 }

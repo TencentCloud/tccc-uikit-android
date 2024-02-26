@@ -21,12 +21,19 @@ public class DisplayUtils {
         sb.append(telNumber.substring(telNumber.length() - 3));
         return sb.toString();
     }
+
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-    // init stack layout
+    /**
+     * init stack layout
+     * @param context context
+     * @param width width
+     * @param height height
+     * @return RelativeLayout.LayoutParams
+     */
     public static ArrayList<RelativeLayout.LayoutParams> initFloatParamList(Context context, int width, int height) {
         ArrayList<RelativeLayout.LayoutParams> list = new ArrayList<RelativeLayout.LayoutParams>();
         // the largest layout in the bottom

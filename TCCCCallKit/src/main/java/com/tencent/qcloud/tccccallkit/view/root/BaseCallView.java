@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 
 public class BaseCallView  extends RelativeLayout {
     protected Context          mContext;
+
     public BaseCallView(Context context) {
         super(context);
         mContext = context;

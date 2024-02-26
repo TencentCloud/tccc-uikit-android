@@ -26,8 +26,7 @@ public abstract class TCCCCallKit {
     public void login(String userId,Long sdkAppId,String token, TUICommonDefine.Callback callback) {
     }
 
-    public boolean isUserLogin() {
-        return false;
+    public void isUserLogin(TUICommonDefine.Callback callback) {
     }
 
     public void logout(TUICommonDefine.Callback callback) {

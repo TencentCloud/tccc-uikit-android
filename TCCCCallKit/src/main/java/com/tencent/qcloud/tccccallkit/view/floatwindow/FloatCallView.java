@@ -18,7 +18,7 @@ import com.tencent.qcloud.tccccallkit.R;
 import com.tencent.qcloud.tccccallkit.utils.ImageLoader;
 
 
-public class FloatCallView extends RelativeLayout{
+public class FloatCallView extends RelativeLayout {
     private static final int UPDATE_COUNT         = 3;
     private static final int UPDATE_INTERVAL      = 300;
     private static final int MESSAGE_VIEW_EMPTY   = 2;

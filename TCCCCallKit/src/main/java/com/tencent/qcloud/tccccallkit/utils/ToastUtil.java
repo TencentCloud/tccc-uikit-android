@@ -1,4 +1,5 @@
 package com.tencent.qcloud.tccccallkit.utils;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,7 +45,8 @@ public class ToastUtil {
                     }
                     Context context = ServiceInitializer.getAppContext();
                     if (context == null) {
-                        Log.e("ToastUtil","context is null,please call TCCCCallKit.createInstance(getApplicationContext()) first");
+                        Log.e("ToastUtil",
+                                "context is null,please call TCCCCallKit.createInstance(getApplicationContext()) first");
                         return;
                     }
                     toast = Toast.makeText(context, message, isLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT);

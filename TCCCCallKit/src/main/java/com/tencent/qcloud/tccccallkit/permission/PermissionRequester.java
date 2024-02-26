@@ -196,7 +196,9 @@ public class PermissionRequester {
             sIsRequesting.set(true);
         }
 
-        EventManager.getInstance().registerEvent(PERMISSION_NOTIFY_EVENT_KEY, PERMISSION_NOTIFY_EVENT_SUB_KEY, mPermissionNotification);
+        EventManager mEventManager = EventManager.getInstance();
+        mEventManager.registerEvent(PERMISSION_NOTIFY_EVENT_KEY,
+                PERMISSION_NOTIFY_EVENT_SUB_KEY, mPermissionNotification);
         if (TUIBuild.getVersionInt() < Build.VERSION_CODES.M) {
             Log.i(TAG, "current version is lower than 23");
             notifyPermissionRequestResult(Result.Granted);
@@ -232,13 +234,14 @@ public class PermissionRequester {
     }
 
     private boolean has(final String permission) {
-
+        Context ctx = ServiceInitializer.getAppContext();
         return TUIBuild.getVersionInt() < Build.VERSION_CODES.M
-                || PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(ServiceInitializer.getAppContext(), permission);
+                || PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(ctx, permission);
     }
 
     private void notifyPermissionRequestResult(Result result) {
-        EventManager.getInstance().unRegisterEvent(PERMISSION_NOTIFY_EVENT_KEY, PERMISSION_NOTIFY_EVENT_SUB_KEY, mPermissionNotification);
+        EventManager manager = EventManager.getInstance();
+        manager.unRegisterEvent(PERMISSION_NOTIFY_EVENT_KEY, PERMISSION_NOTIFY_EVENT_SUB_KEY, mPermissionNotification);
         sIsRequesting.set(false);
         if (mPermissionCallback == null) {
             return;
@@ -288,7 +291,8 @@ public class PermissionRequester {
         private final String mSettingsTip;
         private int mPermissionIconId;
 
-        public RequestData(@NonNull String title, @NonNull String description, @NonNull String settingsTip, @NonNull String... perms) {
+        public RequestData(@NonNull String title, @NonNull String description,
+                           @NonNull String settingsTip, @NonNull String... perms) {
             mTitle = title;
             mDescription = description;
             mSettingsTip = settingsTip;
@@ -354,8 +358,9 @@ public class PermissionRequester {
         @Override
         public String toString() {
             return "PermissionRequest{"
-                    + "mPermissions=" + Arrays.toString(mPermissions) + ", mTitle=" + mTitle + ", mDescription='" + mDescription + ", mSettingsTip='" + mSettingsTip
-                    + '}';
+                    + "mPermissions=" + Arrays.toString(mPermissions) +
+                    ", mTitle=" + mTitle + ", mDescription='" + mDescription +
+                    ", mSettingsTip='" + mSettingsTip + '}';
         }
 
         @Override

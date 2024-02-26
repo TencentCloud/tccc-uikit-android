@@ -63,9 +63,10 @@ public class TUICallingViewManager implements ITUINotification {
     }
 
     private void registerCallingEvent() {
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED, this);
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, this);
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_NETWORK_STATUS_CHANGED,this);
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED, this);
+        eventManager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, this);
+        eventManager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_NETWORK_STATUS_CHANGED,this);
     }
 
     public void createCallingView(CallingUserModel callInfo,CallingUserModel incomingCall) {
@@ -199,7 +200,7 @@ public class TUICallingViewManager implements ITUINotification {
     }
 
     private void updateCallStatus(TUICallDefine.Status status) {
-        Log.i(TAG,"TUICallingViewManager updateCallStatus,status="+status.toString());
+        Log.i(TAG,"TUICallingViewManager updateCallStatus,status=" + status.toString());
         if (TUICallDefine.Status.None.equals(status)) {
             closeCallingView();
             return;
@@ -341,7 +342,7 @@ public class TUICallingViewManager implements ITUINotification {
 
     @Override
     public void onNotifyEvent(String key, String subKey, Map<String, Object> param) {
-        Log.i(TAG,"TUICallingViewManager onNotifyEvent subKey="+subKey);
+        Log.i(TAG,"TUICallingViewManager onNotifyEvent subKey=" + subKey);
         if (param == null) {
             return;
         }
@@ -358,6 +359,8 @@ public class TUICallingViewManager implements ITUINotification {
                 if (null != mUserView) {
                     mUserView.updateNetworkTip((TCCCTypeDef.TCCCQuality) param.get(Constants.NETWORK_STATUS));
                 }
+                break;
+            default:
                 break;
         }
     }

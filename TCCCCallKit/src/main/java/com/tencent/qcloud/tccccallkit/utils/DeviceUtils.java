@@ -7,10 +7,10 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
-
 import java.util.List;
-public class DeviceUtils {
 
+public class DeviceUtils {
+    
     public static void setScreenLockParams(Window window) {
         if (null == window) {
             return;

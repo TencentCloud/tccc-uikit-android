@@ -3,9 +3,10 @@ package com.tencent.qcloud.tccccallkit.utils;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
-
 import java.lang.reflect.Method;
-public class TUIBuild {private static final String TAG = "TUIBuild";
+
+public class TUIBuild {
+    private static final String TAG = "TUIBuild";
 
     private static String MODEL = ""; // Build.MODEL;
     private static String BRAND = ""; // Build.BRAND;

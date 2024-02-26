@@ -54,7 +54,8 @@ public class BaseCallActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TUICallDefine.Status status = TUICallingStatusManager.sharedInstance(this.getApplicationContext()).getCallStatus();
+        TUICallingStatusManager mInstance = TUICallingStatusManager.sharedInstance(this.getApplicationContext());
+        TUICallDefine.Status status = mInstance.getCallStatus();
         if (TUICallDefine.Status.None.equals(status)) {
             Log.e(TAG,"BaseCallActivity onCreate,but CallStatus is None,close this activity");
             finish();

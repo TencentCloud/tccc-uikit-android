@@ -23,16 +23,18 @@ public class BaseFunctionView extends RelativeLayout {
     }
 
     private void registerEvent() {
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED,
+        EventManager mEventManager = EventManager.getInstance();
+        mEventManager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED,
                 mNotification);
-        EventManager.getInstance().registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_AUDIOPLAYDEVICE_CHANGED,
+        mEventManager.registerEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_AUDIOPLAYDEVICE_CHANGED,
                 mNotification);
     }
 
     private final ITUINotification mNotification = new ITUINotification() {
         @Override
         public void onNotifyEvent(String key, String subKey, Map<String, Object> param) {
-            if (Constants.EVENT_TUICALLING_CHANGED.equals(key) && param != null) {
+            if (Constants.EVENT_TUICALLING_CHANGED.equals(key) &&
+                    param != null) {
                 switch (subKey) {
                     case Constants.EVENT_SUB_MIC_STATUS_CHANGED:
                         updateMicMuteStatus((Boolean) param.get(Constants.MUTE_MIC));

@@ -37,31 +37,39 @@ public class MainActivity extends BaseActivity {
             }
             TCCCCallKit.createInstance(getApplicationContext()).call(callNumber, DisplayUtils.maskTelephoneNumber(callNumber), null,null);
         });
-        if (TCCCCallKit.createInstance(getApplicationContext()).isUserLogin()) {
-            return;
-        }
-        GenerateTestUserToken.genTestUserSig(GenerateTestUserToken.SECRETID, GenerateTestUserToken.SECRETKEY, GenerateTestUserToken.SDKAPPID, GenerateTestUserToken.USERID, new GenerateTestUserToken.UserTokenCallBack() {
+        TCCCCallKit.createInstance(getApplicationContext()).isUserLogin(new TUICommonDefine.Callback() {
             @Override
-            public void onSuccess(String token) {
-               TCCCCallKit.createInstance(getApplicationContext()).login(GenerateTestUserToken.USERID, GenerateTestUserToken.SDKAPPID, token, new TUICommonDefine.Callback() {
-                   @Override
-                   public void onSuccess() {
-                       TCCCCallKit.createInstance(getApplicationContext()).enableFloatWindow(true);
-                       ToastUtil.toastShortMessage(getString(R.string.app_login_success));
-                   }
-
-                   @Override
-                   public void onError(int errCode, String errMsg) {
-                       String msg = String.format(getString(R.string.app_login_error),"["+errCode+"]"+errMsg);
-                       ToastUtil.toastLongMessageCenter(msg);
-                   }
-               });
+            public void onSuccess() {
+                // 已正常登录
             }
 
             @Override
-            public void onError(int code, String desc) {
-                String msg = String.format(getString(R.string.app_get_token_error),"["+code+"]"+desc);
-                ToastUtil.toastShortMessageCenter(msg);
+            public void onError(int errCode, String errMsg) {
+                // 登录状态异常重新登录（未登录或者被T了）。
+                GenerateTestUserToken.genTestUserSig(GenerateTestUserToken.SECRETID, GenerateTestUserToken.SECRETKEY, GenerateTestUserToken.SDKAPPID, GenerateTestUserToken.USERID, new GenerateTestUserToken.UserTokenCallBack() {
+                    @Override
+                    public void onSuccess(String token) {
+                        TCCCCallKit.createInstance(getApplicationContext()).login(GenerateTestUserToken.USERID, GenerateTestUserToken.SDKAPPID, token, new TUICommonDefine.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                TCCCCallKit.createInstance(getApplicationContext()).enableFloatWindow(true);
+                                ToastUtil.toastShortMessage(getString(R.string.app_login_success));
+                            }
+
+                            @Override
+                            public void onError(int errCode, String errMsg) {
+                                String msg = String.format(getString(R.string.app_login_error),"["+errCode+"]"+errMsg);
+                                ToastUtil.toastLongMessageCenter(msg);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(int code, String desc) {
+                        String msg = String.format(getString(R.string.app_get_token_error),"["+code+"]"+desc);
+                        ToastUtil.toastShortMessageCenter(msg);
+                    }
+                });
             }
         });
 
@@ -94,6 +102,17 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onNetworkQuality(TUICommonDefine.QualityInfo localQuality, TUICommonDefine.QualityInfo remoteQuality) {
+
+            }
+        });
+        TCCCCallKit.createInstance(getApplicationContext()).isUserLogin(new TUICommonDefine.Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(int errCode, String errMsg) {
 
             }
         });

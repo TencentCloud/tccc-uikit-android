@@ -71,21 +71,24 @@ public class TUICallingStatusManager {
         mCallStatus = status;
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constants.CALL_STATUS, status);
-        EventManager.getInstance().notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, map);
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_CALL_STATUS_CHANGED, map);
     }
 
     public void updateAcceptStatus(boolean isAcceptSuccess) {
         mIsAccept = isAcceptSuccess;
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constants.ACCEPT_STATUS, isAcceptSuccess);
-        EventManager.getInstance().notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED, map);
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_ACCEPT_STATUS_CHANGED, map);
     }
 
     public void updateMicMuteStatus(boolean isMicMute) {
         mIsMicMute = isMicMute;
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constants.MUTE_MIC, isMicMute);
-        EventManager.getInstance().notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED, map);
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_MIC_STATUS_CHANGED, map);
     }
 
     public void updateAudioPlaybackDevice(TUICallDefine.AudioPlaybackDevice audioPlaybackDevice) {
@@ -93,7 +96,8 @@ public class TUICallingStatusManager {
 
         HashMap<String, Object> map = new HashMap<>();
         map.put(Constants.HANDS_FREE, audioPlaybackDevice);
-        EventManager.getInstance().notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_AUDIOPLAYDEVICE_CHANGED, map);
+        EventManager eventManager = EventManager.getInstance();
+        eventManager.notifyEvent(Constants.EVENT_TUICALLING_CHANGED, Constants.EVENT_SUB_AUDIOPLAYDEVICE_CHANGED, map);
     }
 
     public void clear() {
