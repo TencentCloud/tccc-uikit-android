@@ -31,4 +31,8 @@
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
+
+    <style name="TUIBaseTheme">
+    </style>
+
 </resources>

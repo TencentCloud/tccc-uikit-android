@@ -8,6 +8,7 @@ import com.tencent.qcloud.debug.GenerateTestUserToken;
 import com.tencent.qcloud.tccccallkit.TCCCCallKit;
 import com.tencent.qcloud.tccccallkit.base.TUICommonDefine;
 import com.tencent.qcloud.tccccallkit.utils.DisplayUtils;
+import com.tencent.qcloud.tccccallkit.utils.TUIThemeManager;
 import com.tencent.qcloud.tccccallkit.utils.ToastUtil;
 
 public class MainActivity extends BaseActivity {
@@ -116,6 +117,8 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+        // 动态语言变更
+        TUIThemeManager.getInstance().changeLanguage(getApplicationContext(),TUIThemeManager.LANGUAGE_EN);
     }
 
 }

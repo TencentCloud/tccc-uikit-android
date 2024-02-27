@@ -25,4 +25,9 @@ public class TUICallDefine {
         Called,
     }
 
+    public static final class TUICore {
+        public static final String LANGUAGE_EVENT         = "TUIThemeManager";
+        public static final String LANGUAGE_EVENT_SUB_KEY = "onInitLanguage";
+    }
+
 }

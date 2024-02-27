@@ -162,7 +162,7 @@ TCCCCallKit.createInstance(getApplicationContext()).setCallStatusListener(new TU
 });
 ```
 
-### 三、用户状态监听
+### 三、其他功能说明
 
 - 如果您的业务需要 **用户状态监听**，可以监听以下事件：
 
@@ -189,6 +189,13 @@ TCCCCallKit.createInstance(getApplicationContext()).isUserLogin(new TUICommonDef
         // 未登录，或者被T了。
     }
 });
+```
+
+- 默认自带 简体中文、英语 语言包，作为界面展示语言。组件内部语言会跟随系统语言,无需额外步骤。如需要实时动态修改语言可参考
+
+``` java
+// 实时变更为英文
+TUIThemeManager.getInstance().changeLanguage(getApplicationContext(),TUIThemeManager.LANGUAGE_EN);
 ```
 
 ### 四、自定义铃音
