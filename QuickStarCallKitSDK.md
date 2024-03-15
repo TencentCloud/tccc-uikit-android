@@ -1,4 +1,4 @@
-本文将介绍如何用最短的时间完成 TCCCCallKit 组件的接入，您将在一小时内完成如下几个关键步骤，并最终得到一个包含完备 UI 界面的电话外呼、接听功能。
+本文将介绍如何用最短的时间完成 TCCCCallKit 组件的接入，您将在十分钟内完成如下几个关键步骤，并最终得到一个包含完备 UI 界面的电话外呼、接听功能。
 
 ## 环境准备
 - Android Studio 3.5+。
@@ -12,7 +12,7 @@
 [](id:step1)
 ## 步骤一：下载并导入组件
 
-在 [Github](hhttps://github.com/TencentCloud/tccc-uikit-android) 中克隆/下载代码，然后拷贝该库目录下的 TCCCCallKit 子目录到您当前工程中的 app 同一级目录中，如下图：
+在 [Github](https://github.com/TencentCloud/tccc-uikit-android) 中克隆/下载代码，然后拷贝该库目录下的 TCCCCallKit 子目录到您当前工程中的 app 同一级目录中，如下图：
 
 ![](https://tccc.qcloud.com/assets/doc/Agent/ios_image/GitCallKitDemo.png)
 
@@ -55,6 +55,9 @@ api project(':TCCCCallKit')
 
 [](id:step3)
 ## 步骤三：登录 TCCC
+
+在您的项目中添加如下代码，它的作用是通过调用 TCCCCallKit 中的相关接口完成 TCCCCallKit 组件的登录。这个步骤异常关键，因为只有在登录成功后才能正常使用 TCCCCallKit 的各项功能，故请您耐心检查相关参数是否配置正确：
+
 ``` java
 // 登录
 TCCCCallKit.createInstance(getApplicationContext()).login(
@@ -117,6 +120,7 @@ TCCCCallKit.createInstance(getApplicationContext()).call(
 - 您的 App 在后台，但是有授予`悬浮窗权限`或`后台弹出应用`等权限时，仍然会自动弹出呼叫界面并播放来电铃音。
 - 您的 App 在后台，且没有授予`悬浮窗权限`或`后台弹出应用`等权限时，TCCCCallKit 会播放来电铃音，提示用户接听或挂断。
 - 您的 App 进程已经被销毁或者冻结了，可以通过开通手机接听来处理接听来电。
+
     ![](https://tccc.qcloud.com/assets/doc/Agent/ios_image/callInByPhone.png)
 
 ## 步骤六：更多特性

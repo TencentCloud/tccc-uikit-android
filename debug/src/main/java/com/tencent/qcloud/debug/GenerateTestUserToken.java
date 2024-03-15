@@ -2,6 +2,8 @@ package com.tencent.qcloud.debug;
 
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,44 +47,37 @@ public class GenerateTestUserToken {
     public static final String SECRETKEY = "";
 
     /**
-     * 呼叫的号码
-     */
-    public static final String TO = "";
-
-    /**
      * 生成票据
      *
-     * @param secretId 计算签名用的加密密钥ID
+     * @param secretId  计算签名用的加密密钥ID
      * @param secretKey 计算签名用的加密密钥Key
-     * @param sdkAppId 腾讯云联络中心 SDKAppId，需要替换为您自己账号下的 SDKAppId。
-     * @param userId 座席账号
-     *
+     * @param sdkAppId  腾讯云联络中心 SDKAppId，需要替换为您自己账号下的 SDKAppId。
+     * @param userId    座席账号
      * @note 请不要将如下代码发布到您的线上正式版本的 App 中，原因如下：
-     *
      * 本文件中的代码虽然能够正确计算出 Token，但仅适合快速调通 SDK 的基本功能，不适合线上产品，
      * 这是因为客户端代码中的 SECRETKEY 很容易被反编译逆向破解，尤其是 Web 端的代码被破解的难度几乎为零。
      * 一旦您的密钥泄露，攻击者就可以计算出正确的 Token 来盗用您的腾讯云流量
-     *
      * 正确的做法是将 Token 的计算代码和加密密钥放在您的业务服务器上，然后由 App 按需向您的服务器获取实时算出的 Token。
      * 由于破解服务器的成本要高于破解客户端 App，所以服务器计算的方案能够更好地保护您的加密密钥。
-     *
      * 文档：https://cloud.tencent.com/document/product/679/58260
-     *
-     * @return 如果出错，会返回为空，或者有异常打印，成功返回有效的票据
      */
-    public static String genTestUserSig(String secretId, String secretKey,long sdkAppId, String userId, com.tencent.qcloud.debug.GenerateTestUserToken.UserTokenCallBack callBack) {
-        return GenTLSSignature(secretId, secretKey,sdkAppId, userId,callBack);
+    public static void genTestUserSig(String secretId, String secretKey,
+                                      long sdkAppId, String userId, UserTokenCallBack callBack) {
+        genTLSSignature(secretId, secretKey, sdkAppId, userId, callBack);
     }
 
 
-    private static String GenTLSSignature(String secretId, String secretKey, long sdkAppId, String userId, com.tencent.qcloud.debug.GenerateTestUserToken.UserTokenCallBack callBack)  {
+    private static void genTLSSignature(String secretId, String secretKey,
+                                        long sdkAppId, String userId, UserTokenCallBack callBack)  {
         final MediaType MEDIA_JSON        = MediaType.parse("application/json; charset=utf-8");
         JSONObject sigDoc = new JSONObject();
         try {
             sigDoc.put("secretId", secretId);
             sigDoc.put("secretKey", secretKey);
             sigDoc.put("SdkAppId", sdkAppId);
-            sigDoc.put("isTest", sdkAppId == 1400264214 || sdkAppId == 1400651411 || sdkAppId == 1400670064?true:false);
+            JSONObject isTest = sigDoc.put("isTest", sdkAppId == 1400264214 ||
+                    sdkAppId == 1400651411 ||
+                    sdkAppId == 1400670064);
             sigDoc.put("SeatUserId", userId);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -98,40 +93,40 @@ public class GenerateTestUserToken {
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
 
-            Handler mainHandler = new Handler();
+            final Handler mainHandler = new Handler();
             @Override
-            public void onFailure(Call call, IOException e) {
-                mainHandler.post(()->{
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                mainHandler.post(() -> {
                     callBack.onError(-1,e.getMessage());
                 });
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                assert response.body() != null;
                 String body = response.body().string();
                 try {
                     JSONObject jsonObject = new JSONObject(body);
                     int errorCode = jsonObject.getInt("errorCode");
                     String errorMessage = jsonObject.getString("errorMessage");
-                    if(errorCode!=0){
+                    if (errorCode != 0) {
                         mainHandler.post(()-> {
                             callBack.onError(errorCode, errorMessage);
                         });
                         return;
                     }
                     String token = jsonObject.getString("Token");
-                    mainHandler.post(()->{
+                    mainHandler.post(()-> {
                         callBack.onSuccess(token);
                     });
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    mainHandler.post(()->{
+                    mainHandler.post(()-> {
                         callBack.onError(-1,e.getMessage());
                     });
                 }
             }
         });
-        return "";
     }
 
     public  interface UserTokenCallBack {

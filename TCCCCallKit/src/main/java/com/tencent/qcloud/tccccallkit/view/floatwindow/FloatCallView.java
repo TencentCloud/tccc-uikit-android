@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tencent.qcloud.tccccallkit.R;
-import com.tencent.qcloud.tccccallkit.utils.ImageLoader;
 
 
 public class FloatCallView extends RelativeLayout {

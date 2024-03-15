@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">TCCC Call Kit Demo</string>
-    <string name="app_main_title">Tencent Cloud Contact Center</string>
+    <string name="app_main_title">Tencent Cloud \n Contact Center</string>
     <string name="app_hint_call_to">Please enter the mobile phone number you want to call</string>
-    <string name="app_login_success">login success</string>
+    <string name="app_login_success">Login success</string>
     <string name="app_login_error">Login failed. %s</string>
     <string name="app_get_token_error">Failed to obtain Token. %s</string>
 
-    <string name="btn_text_call">call</string>
+    <string name="btn_text_call">Call</string>
 </resources>

@@ -29,10 +29,6 @@ public class CallingBellFeature {
         mMediaPlayer = new MediaPlayer();
     }
 
-    public void startDialingMusic() {
-        start("", R.raw.phone_dialing);
-    }
-
     public void startRing() {
         if (SPUtils.getInstance(PROFILE_TUICALLKIT).getBoolean(PROFILE_MUTE_MODE, false)) {
             return;
