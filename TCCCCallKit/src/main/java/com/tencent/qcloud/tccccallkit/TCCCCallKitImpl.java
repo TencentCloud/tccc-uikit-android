@@ -239,7 +239,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
                 cccSDK.call(params, new TXCallback() {
                     @Override
                     public void onSuccess() {
-                        Log.i(TAG, "call success");
+                        Log.i(TAG, "call success,to="+to);
                         TUICallingStatusManager.sharedInstance(mContext).setCallRole(TUICallDefine.Role.Caller);
                         showCallingView();
                         // 不需要调用
@@ -286,6 +286,8 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     private void runOnMainThread(Runnable task) {
         if (null != task) {
             mMainHandler.post(task);
+        } else {
+            Log.e(TAG, "runOnMainThread task is null");
         }
     }
 
@@ -467,6 +469,8 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
                 msg = mContext.getString(R.string.tuicalling_ended_reason_timeout);
             } else if (reason == EndedReason.LocalBye) {
                 msg = mContext.getString(R.string.tuicalling_ended_reason_local_bye);
+            } else if (reason == EndedReason.LocalCancel) {
+                msg = mContext.getString(R.string.tuicalling_ended_reason_local_cancel);
             } else if (reason == EndedReason.RemoteBye) {
                 msg = mContext.getString(R.string.tuicalling_ended_reason_remote_bye);
             } else if (reason == EndedReason.Rejected) {

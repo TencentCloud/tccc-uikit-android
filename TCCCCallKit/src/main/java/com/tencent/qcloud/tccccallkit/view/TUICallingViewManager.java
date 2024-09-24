@@ -342,7 +342,7 @@ public class TUICallingViewManager implements ITUINotification {
 
     @Override
     public void onNotifyEvent(String key, String subKey, Map<String, Object> param) {
-        Log.i(TAG,"TUICallingViewManager onNotifyEvent subKey=" + subKey);
+        Log.d(TAG,"TUICallingViewManager onNotifyEvent subKey=" + subKey);
         if (param == null) {
             return;
         }

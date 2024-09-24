@@ -27,6 +27,7 @@
     <string name="tuicalling_ended_reason_error">The call restriction ends, possibly because the other party refuses to answer or due to predetermined outbound call rules. %s</string>
     <string name="tuicalling_ended_reason_timeout">Hang up after timeout</string>
     <string name="tuicalling_ended_reason_local_bye">you have hung up</string>
+    <string name="tuicalling_ended_reason_local_cancel">You have canceled</string>
     <string name="tuicalling_ended_reason_remote_bye">The other party has hung up</string>
     <string name="tuicalling_ended_reason_rejected">The other party has rejected the call</string>
     <string name="tuicalling_ended_reason_remote_cancel">The other party has canceled</string>
