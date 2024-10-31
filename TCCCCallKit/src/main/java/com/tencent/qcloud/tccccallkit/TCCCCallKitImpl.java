@@ -460,11 +460,14 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
                     " ,sessionId=" + sessionId);
             String msg = "";
             if (reason == EndedReason.Error) {
-                // 外呼规则如下：
-                // https://cloud.tencent.com/document/product/679/79155
-                msg = String.format(mContext.getString(R.string.tuicalling_ended_reason_error),
-                        "[" + reason.ordinal() + "]" + reasonMessage);
-
+                // 外呼规则如下：https://cloud.tencent.com/document/product/679/79155
+                // 如果包含 SipReason 说明原因可能是主叫或者被叫运营商拦截或者无法送到。其他情况直接用tccc提供的挂断原因
+                if (reasonMessage != null && reasonMessage.contains("SipReason")) {
+                    msg = String.format(mContext.getString(R.string.tuicalling_ended_reason_error),
+                            "[" + reason.ordinal() + "]" + reasonMessage);
+                } else  {
+                    msg = reasonMessage;
+                }
             } else if (reason == EndedReason.Timeout) {
                 msg = mContext.getString(R.string.tuicalling_ended_reason_timeout);
             } else if (reason == EndedReason.LocalBye) {
@@ -548,6 +551,7 @@ public class TCCCCallKitImpl extends TCCCCallKit implements ITUINotification {
     private void initCallEngine() {
         if (cccSDK == null) {
             cccSDK = TCCCWorkstation.sharedInstance(mContext);
+            Log.i(TAG, "TCCC Version=" + TCCCWorkstation.getSDKVersion());
             cccSDK.callExperimentalAPI("setUserAgentStr","TCCCCallKit");
             cccSDK.setListener(tcccListener);
         }
