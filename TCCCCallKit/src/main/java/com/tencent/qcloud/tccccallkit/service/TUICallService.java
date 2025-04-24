@@ -11,6 +11,7 @@ import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
+import com.tencent.qcloud.tccccallkit.R;
 import com.tencent.qcloud.tccccallkit.utils.DeviceUtils;
 
 
@@ -49,17 +50,19 @@ public class TUICallService extends Service {
 
     private Notification createForegroundNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String notificationChannelId = "notification_channel_id_01";
+        String notificationChannelId = "notification_channel_id_tccc_foreground_service";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelName = "TRTC Foreground Service Notification";
             NotificationChannel notificationChannel = new NotificationChannel(
-                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_LOW);
+                    notificationChannelId, channelName, NotificationManager.IMPORTANCE_HIGH);
             notificationChannel.setDescription("Channel description");
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, notificationChannelId);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, notificationChannelId)
+                .setContentTitle(getString(R.string.tuicalling_foreground_service))
+                .setContentText(getString(R.string.tuicalling_foreground_service));
         return builder.build();
     }
 

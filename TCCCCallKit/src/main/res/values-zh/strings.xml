@@ -47,4 +47,5 @@
     <string name="core_permission_dialog_title">权限申请</string>
     <string name="core_permission_dialog_positive_setting_text">去设置</string>
     <string name="core_float_permission_hint">请同时打开\"后台弹出界面\"和\"显示悬浮窗\"权限</string>
+    <string name="tuicalling_foreground_service">正在通话中</string>
 </resources>
